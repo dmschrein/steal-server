@@ -1,15 +1,16 @@
-const { logEvents } = require('./logger')
+// Import the logEvents function using ES Module syntax
+import { logEvents } from './logger.js';
 
 const errorHandler = (err, req, res, next) => {
-  logEvents(`${err.name}: ${err.message}\t${req.method}\t${req.url}\t$
-  {req.headers.origin}`, 'errLog.log')
-  console.log(err.stack)
+  // Corrected template string below
+  logEvents(`${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`, 'errLog.log');
+  console.log(err.stack);
 
-  const status = res.statusCode ? res.statusCode : 500 //server error
+  const status = res.statusCode ? res.statusCode : 500; // Server error by default if statusCode not already set
 
-  res.status(status)
+  res.status(status);
 
-  res.json({message: err.message })
-}
+  res.json({ message: err.message });
+};
 
-module.exports = errorHandler
+export default errorHandler;

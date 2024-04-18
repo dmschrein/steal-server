@@ -1,12 +1,11 @@
 import express from 'express';
+import { createNewFormEntry } from "../controllers/formEntryController.js";  // Correctly import named export
+import verifyJWT from '../middleware/verifyJWT.js';
 
-import router from express.Router()
-import formEntryController from "../controllers/formEntryController"
-import verifyJWT from '../middleware/verifyJWT'
+const router = express.Router();
 
-route.use(verifyJWT)
+//router.use(verifyJWT); not needed to create a new form entry
 
-router.route('/')
-  .post(formEntryController.createNewFormEntry)
+router.post('/', createNewFormEntry);  // Use the named export directly
 
-module.exports = router
+export default router;

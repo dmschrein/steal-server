@@ -1,27 +1,29 @@
-const { format } = require('date-fns')
-const { v4: uuid } = require('uuid')
-const fs = require('fs')
-const fsPromises = require('fs').promises 
-const path = require('path')
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs/promises';  // use promises for async handling
+import fsSync from 'fs';       // to check directory existence synchronously
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const logEvents = async (message, logFileName) => {
-  const dateTime = `${format(new Date(), 'yyyyMMdd\tHH:mm:ss')}`
-  const logItem = `${dateTime}\t${uuid()}\t${message}\n`
+    const dateTime = `${new Date().toISOString()}`;
+    const logItem = `${dateTime}\t${message}\n`;
+    const logFilePath = path.join(__dirname, '..', 'logs', logFileName);
 
-  try {
-    if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {
-      await fsPromises.mkdir(path.join(__dirname, '..', 'logs'))
+    try {
+        if (!fsSync.existsSync(path.dirname(logFilePath))) {
+            await fs.mkdir(path.dirname(logFilePath), { recursive: true });
+        }
+        await fs.appendFile(logFilePath, logItem);
+    } catch (err) {
+        console.error('Error writing to log file', err);
     }
-    await fsPromises.appendFile(path.join(__dirname, '..', 'logs', logFileName), logItem)
-  } catch (err) {
-    console.log(err)
-  }
-}
+};
 
 const logger = (req, res, next) => {
-  logEvents(`${req.method}\t${req.url}\t${req.headers.origin}`, 'reqLog.log')
-  console.log(`${req.method} ${req.path}`)
-  next()
-}
+    logEvents(`${req.method}\t${req.url}\t${req.headers.origin}`, 'reqLog.log');
+    next();
+};
 
-module.exports = { logEvents, logger }
+export { logEvents, logger };

@@ -1,34 +1,44 @@
-import FormEntry from "../models/FormEntry";
-
+import FormEntry from "../models/FormEntry.js";
 
 // @desc Create new form entry
 // @route POST /form
 // @access Private
-const createNewFormEntry = async (req, res) => {
-  const { businessName, contactName, email, phone } = req.body
+export const createNewFormEntry = async (req, res) => {
+  const { businessName, contactName, email, phone, website, industry, prodCategories, keyProducts, platformsUsed, avgMonthlySales, competitiveEdge, challengesFaced, interest, expectedBenefits, additionalInfo } = req.body;
 
   // Confirm data
   if (!businessName || !contactName || !email) {
-      return res.status(400).json({ message: 'All fields are required' })
+      return res.status(400).json({ message: 'All fields are required' });
   }
 
-  // Check for duplicate RegisterUser
-  const duplicate = await FormEntry.findOne({ email }).collation({ locale: 'en', strength: 2}).lean().exec()
+  // Check for duplicate email
+  const duplicate = await FormEntry.findOne({ email }).collation({ locale: 'en', strength: 2 }).lean().exec();
 
   if (duplicate) {
-      return res.status(409).json({ message: 'Duplicate email' })
+      return res.status(409).json({ message: 'Duplicate email' });
   }
 
-  // Create and store new user 
-  const formEntry = await FormEntry.create()
-
-  if (formEntry) { //created 
-      res.status(201).json({ message: `New form entry ${contactName} created` })
-  } else {
-      res.status(400).json({ message: 'Invalid form entry data received' })
+  // Create and store new form entry
+  try {
+    const formEntry = await FormEntry.create({
+      businessName,
+      contactName,
+      email,
+      phone, 
+      website,
+      industry,
+      prodCategories,
+      keyProducts,
+      platformsUsed,
+      avgMonthlySales,
+      competitiveEdge,
+      challengesFaced,
+      interest,
+      expectedBenefits,
+      additionalInfo
+    });
+    res.status(201).json({ message: `New form entry for ${contactName} created.` });
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid form entry data received', error: error.toString() });
   }
-}
-
-module.exports = {
-  createNewFormEntry
-}
+};

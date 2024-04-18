@@ -4,4 +4,4 @@ const allowedOrigins = [
   'https://risingfounder.io'
 ];
 
-module.exports = allowedOrigins;
+export default allowedOrigins;

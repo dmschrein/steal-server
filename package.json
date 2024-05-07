@@ -1,6 +1,9 @@
 {
   "name": "steal-server",
   "version": "1.0.0",
+  "engines": {
+    "node": "20.11.1"
+  },
   "type": "module",
   "description": "steal server",
   "main": "server.js",

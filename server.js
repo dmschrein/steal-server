@@ -14,6 +14,7 @@ import connectDB from './config/dbConn.js';
 import rootRouter from './routes/root.js'; // Importing root router
 import formEntryRoute from './routes/formEntryRoute.js'; // Importing form entry router
 import authRouter from './routes/authRoutes.js';  
+import { logEvents } from './middleware/logger.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -1,0 +1,19 @@
+Instructions to Deploy Steal server to heroku
+
+- Install dotenv and path packages
+- Require dotenv config and path
+- Create .env file
+- Add .env file to .gitignore
+- Connect mongodb atlas 
+- Remove git from client folder
+- Write script in server.js
+- Write script in server package.json file
+- Create Procfile
+- Login to heroku
+- Create heroku app
+- Change proxy address in client package.json
+- Build client static files
+- Commit all code 
+- Add heroku remote
+- Push to heroku 
+- Add env variable to heroku settings

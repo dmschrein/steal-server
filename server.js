@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3500;
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 
 connectDB();
 
